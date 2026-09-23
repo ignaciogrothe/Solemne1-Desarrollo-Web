@@ -133,3 +133,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Autenticacion: a donde se manda al usuario segun su estado de sesion.
+LOGIN_URL = 'clinica:login'
+LOGIN_REDIRECT_URL = 'clinica:inicio'
+LOGOUT_REDIRECT_URL = 'clinica:login'
