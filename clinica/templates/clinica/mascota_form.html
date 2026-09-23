@@ -1,46 +1,53 @@
 {% extends "clinica/base.html" %}
+{% load static %}
 
 {% block titulo %}{{ titulo }} · Clínica Patitas{% endblock %}
 
 {% block contenido %}
 <h1>{{ titulo }}</h1>
 
-<form class="formulario" method="post">
+<form class="formulario" method="post" novalidate data-validar="mascota">
   {% csrf_token %}
 
   <div class="grupo">
     <label for="{{ form.nombre.id_for_label }}">Nombre</label>
     {{ form.nombre }}
+    <small class="error" data-error-de="{{ form.nombre.html_name }}"></small>
     {% for e in form.nombre.errors %}<small class="error">{{ e }}</small>{% endfor %}
   </div>
 
   <div class="grupo">
     <label for="{{ form.dueno.id_for_label }}">Dueño</label>
     {{ form.dueno }}
+    <small class="error" data-error-de="{{ form.dueno.html_name }}"></small>
     {% for e in form.dueno.errors %}<small class="error">{{ e }}</small>{% endfor %}
   </div>
 
   <div class="grupo">
     <label for="{{ form.especie.id_for_label }}">Especie</label>
     {{ form.especie }}
+    <small class="error" data-error-de="{{ form.especie.html_name }}"></small>
     {% for e in form.especie.errors %}<small class="error">{{ e }}</small>{% endfor %}
   </div>
 
   <div class="grupo">
     <label for="{{ form.sexo.id_for_label }}">Sexo</label>
     {{ form.sexo }}
+    <small class="error" data-error-de="{{ form.sexo.html_name }}"></small>
     {% for e in form.sexo.errors %}<small class="error">{{ e }}</small>{% endfor %}
   </div>
 
   <div class="grupo">
     <label for="{{ form.fecha_nacimiento.id_for_label }}">Fecha de nacimiento</label>
     {{ form.fecha_nacimiento }}
+    <small class="error" data-error-de="{{ form.fecha_nacimiento.html_name }}"></small>
     {% for e in form.fecha_nacimiento.errors %}<small class="error">{{ e }}</small>{% endfor %}
   </div>
 
   <div class="grupo">
     <label for="{{ form.peso_kg.id_for_label }}">Peso (kg)</label>
     {{ form.peso_kg }}
+    <small class="error" data-error-de="{{ form.peso_kg.html_name }}"></small>
     {% for e in form.peso_kg.errors %}<small class="error">{{ e }}</small>{% endfor %}
   </div>
 
@@ -54,4 +61,8 @@
     <a class="btn" href="{% url 'clinica:mascota_lista' %}">Cancelar</a>
   </div>
 </form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'clinica/js/validaciones.js' %}"></script>
 {% endblock %}

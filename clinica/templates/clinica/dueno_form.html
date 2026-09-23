@@ -1,0 +1,62 @@
+{% extends "clinica/base.html" %}
+{% load static %}
+
+{% block titulo %}{{ titulo }} · Clínica Patitas{% endblock %}
+
+{% block contenido %}
+<h1>{{ titulo }}</h1>
+
+<form class="formulario" method="post" novalidate data-validar="dueno">
+  {% csrf_token %}
+
+  <div class="grupo">
+    <label for="{{ form.rut.id_for_label }}">RUT</label>
+    {{ form.rut }}
+    <small class="error" data-error-de="{{ form.rut.html_name }}"></small>
+    {% for e in form.rut.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.nombre.id_for_label }}">Nombre</label>
+    {{ form.nombre }}
+    <small class="error" data-error-de="{{ form.nombre.html_name }}"></small>
+    {% for e in form.nombre.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.apellido.id_for_label }}">Apellido</label>
+    {{ form.apellido }}
+    <small class="error" data-error-de="{{ form.apellido.html_name }}"></small>
+    {% for e in form.apellido.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.email.id_for_label }}">Correo electrónico</label>
+    {{ form.email }}
+    <small class="error" data-error-de="{{ form.email.html_name }}"></small>
+    {% for e in form.email.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.telefono.id_for_label }}">Teléfono</label>
+    {{ form.telefono }}
+    <small class="error" data-error-de="{{ form.telefono.html_name }}"></small>
+    {% for e in form.telefono.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.direccion.id_for_label }}">Dirección</label>
+    {{ form.direccion }}
+    {% for e in form.direccion.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="acciones">
+    <button type="submit" class="btn btn-principal">Guardar</button>
+    <a class="btn" href="{% url 'clinica:dueno_lista' %}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'clinica/js/validaciones.js' %}"></script>
+{% endblock %}

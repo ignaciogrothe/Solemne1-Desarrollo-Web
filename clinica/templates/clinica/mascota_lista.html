@@ -1,4 +1,5 @@
 {% extends "clinica/base.html" %}
+{% load static %}
 
 {% block titulo %}Mascotas · Clínica Patitas{% endblock %}
 
@@ -8,7 +9,53 @@
   <a class="btn btn-principal" href="{% url 'clinica:mascota_crear' %}">+ Nueva mascota</a>
 </div>
 
-{% if mascotas %}
+<form class="filtros" method="get" id="form-filtros">
+  <div class="grupo">
+    <label for="filtro-especie">Especie</label>
+    <select class="campo" name="especie" id="filtro-especie">
+      <option value="">Todas</option>
+      {% for e in especies %}
+        <option value="{{ e.id }}" {% if especie_sel == e.id|stringformat:"s" %}selected{% endif %}>{{ e.nombre }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="grupo">
+    <label for="filtro-dueno">Dueño</label>
+    <select class="campo" name="dueno" id="filtro-dueno">
+      <option value="">Todos</option>
+      {% for d in duenos %}
+        <option value="{{ d.id }}" {% if dueno_sel == d.id|stringformat:"s" %}selected{% endif %}>{{ d.nombre_completo }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="grupo">
+    <label for="filtro-texto">Nombre</label>
+    <input class="campo" type="search" name="texto" id="filtro-texto" value="{{ texto }}" placeholder="Buscar...">
+  </div>
+
+  <div class="grupo">
+    <button type="submit" class="btn btn-principal">Filtrar</button>
+    <a class="btn" href="{% url 'clinica:mascota_lista' %}">Limpiar</a>
+  </div>
+</form>
+
+{# ESTADO 3 · CARGANDO: el JS lo muestra mientras se envia el filtro #}
+<div class="estado-cargando" id="cargando" hidden>
+  <span class="spinner"></span> Cargando mascotas...
+</div>
+
+{% if error %}
+  {# ESTADO 4 · ERROR #}
+  <div class="estado estado-error">
+    <h2>Ocurrió un problema</h2>
+    <p>{{ error }}</p>
+    <a class="btn" href="{% url 'clinica:mascota_lista' %}">Reintentar</a>
+  </div>
+
+{% elif mascotas %}
+  {# ESTADO 1 · CON DATOS #}
   <table class="tabla">
     <thead>
       <tr>
@@ -34,11 +81,17 @@
       {% endfor %}
     </tbody>
   </table>
+
 {% else %}
+  {# ESTADO 2 · VACIO #}
   <div class="estado estado-vacio">
     <h2>No hay mascotas que mostrar</h2>
-    <p>Aún no se ha registrado ninguna mascota.</p>
+    <p>No se encontraron resultados con los filtros aplicados.</p>
     <a class="btn btn-principal" href="{% url 'clinica:mascota_crear' %}">Registrar la primera</a>
   </div>
 {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'clinica/js/validaciones.js' %}"></script>
 {% endblock %}

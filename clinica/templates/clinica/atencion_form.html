@@ -1,0 +1,81 @@
+{% extends "clinica/base.html" %}
+{% load static %}
+
+{% block titulo %}{{ titulo }} · Clínica Patitas{% endblock %}
+
+{% block contenido %}
+<h1>{{ titulo }}</h1>
+
+{% if form.non_field_errors %}
+  <div class="aviso aviso-error">{{ form.non_field_errors|join:" " }}</div>
+{% endif %}
+
+<form class="formulario" method="post" novalidate data-validar="atencion"
+      data-url-mascotas="{% url 'clinica:api_mascotas' 0 %}">
+  {% csrf_token %}
+
+  {# Desplegable dependiente: al elegir dueño se recargan sus mascotas #}
+  <div class="grupo">
+    <label for="{{ form.dueno.id_for_label }}">Dueño</label>
+    {{ form.dueno }}
+    <small class="error" data-error-de="{{ form.dueno.html_name }}"></small>
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.mascota.id_for_label }}">Mascota</label>
+    {{ form.mascota }}
+    <small class="ayuda" id="ayuda-mascota">Elija primero un dueño para filtrar sus mascotas.</small>
+    <small class="error" data-error-de="{{ form.mascota.html_name }}"></small>
+    {% for e in form.mascota.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.veterinario.id_for_label }}">Veterinario</label>
+    {{ form.veterinario }}
+    <small class="error" data-error-de="{{ form.veterinario.html_name }}"></small>
+    {% for e in form.veterinario.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.fecha.id_for_label }}">Fecha</label>
+    {{ form.fecha }}
+    <small class="error" data-error-de="{{ form.fecha.html_name }}"></small>
+    {% for e in form.fecha.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.motivo.id_for_label }}">Motivo</label>
+    {{ form.motivo }}
+    <small class="error" data-error-de="{{ form.motivo.html_name }}"></small>
+    {% for e in form.motivo.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.diagnostico.id_for_label }}">Diagnóstico</label>
+    {{ form.diagnostico }}
+    {% for e in form.diagnostico.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.costo_neto.id_for_label }}">Costo neto ($)</label>
+    {{ form.costo_neto }}
+    <small class="error" data-error-de="{{ form.costo_neto.html_name }}"></small>
+    {% for e in form.costo_neto.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.estado.id_for_label }}">Estado</label>
+    {{ form.estado }}
+  </div>
+
+  <div class="acciones">
+    <button type="submit" class="btn btn-principal">Guardar</button>
+    <a class="btn" href="{% url 'clinica:atencion_lista' %}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'clinica/js/validaciones.js' %}"></script>
+<script src="{% static 'clinica/js/dependiente.js' %}"></script>
+{% endblock %}

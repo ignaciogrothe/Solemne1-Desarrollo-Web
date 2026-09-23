@@ -1,0 +1,38 @@
+{% extends "clinica/base.html" %}
+
+{% block titulo %}Dueños · Clínica Patitas{% endblock %}
+
+{% block contenido %}
+<div class="encabezado-seccion">
+  <h1>Dueños</h1>
+  <a class="btn btn-principal" href="{% url 'clinica:dueno_crear' %}">+ Nuevo dueño</a>
+</div>
+
+{% if duenos %}
+  <table class="tabla">
+    <thead>
+      <tr><th>RUT</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Mascotas</th></tr>
+    </thead>
+    <tbody>
+      {% for d in duenos %}
+      <tr>
+        <td>{{ d.rut }}</td>
+        <td>{{ d.nombre_completo }}</td>
+        <td>{{ d.email }}</td>
+        <td>{{ d.telefono }}</td>
+        <td>
+          <a href="{% url 'clinica:mascota_lista' %}?dueno={{ d.id }}">
+            {{ d.cantidad_mascotas }} registrada{{ d.cantidad_mascotas|pluralize }}
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="estado estado-vacio">
+    <h2>Aún no hay dueños registrados</h2>
+    <a class="btn btn-principal" href="{% url 'clinica:dueno_crear' %}">Registrar el primero</a>
+  </div>
+{% endif %}
+{% endblock %}

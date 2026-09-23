@@ -38,6 +38,7 @@
 {% else %}
   <div class="estado estado-vacio">
     <p>Esta mascota todavía no registra atenciones.</p>
+    <a class="btn btn-principal" href="{% url 'clinica:atencion_crear' %}">Registrar atención</a>
   </div>
 {% endif %}
 

@@ -1,4 +1,5 @@
 {% extends "clinica/base.html" %}
+{% load static %}
 
 {% block titulo %}Iniciar sesión · Clínica Patitas{% endblock %}
 
@@ -11,20 +12,26 @@
     <div class="aviso aviso-error">Usuario o contraseña incorrectos.</div>
   {% endif %}
 
-  <form method="post">
+  <form method="post" novalidate data-validar="login">
     {% csrf_token %}
 
     <div class="grupo">
       <label for="{{ form.username.id_for_label }}">Usuario</label>
       {{ form.username }}
+      <small class="error" data-error-de="{{ form.username.html_name }}"></small>
     </div>
 
     <div class="grupo">
       <label for="{{ form.password.id_for_label }}">Contraseña</label>
       {{ form.password }}
+      <small class="error" data-error-de="{{ form.password.html_name }}"></small>
     </div>
 
     <button type="submit" class="btn btn-principal">Entrar</button>
   </form>
 </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'clinica/js/validaciones.js' %}"></script>
 {% endblock %}

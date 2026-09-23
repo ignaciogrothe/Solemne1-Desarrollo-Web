@@ -1,0 +1,53 @@
+{% extends "clinica/base.html" %}
+
+{% block titulo %}Atenciones · Clínica Patitas{% endblock %}
+
+{% block contenido %}
+<div class="encabezado-seccion">
+  <h1>Atenciones</h1>
+  <a class="btn btn-principal" href="{% url 'clinica:atencion_crear' %}">+ Nueva atención</a>
+</div>
+
+<form class="filtros" method="get">
+  <div class="grupo">
+    <label for="filtro-vet">Veterinario</label>
+    <select class="campo" name="veterinario" id="filtro-vet">
+      <option value="">Todos</option>
+      {% for v in veterinarios %}
+        <option value="{{ v.id }}" {% if veterinario_sel == v.id|stringformat:"s" %}selected{% endif %}>{{ v }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="grupo">
+    <button type="submit" class="btn btn-principal">Filtrar</button>
+    <a class="btn" href="{% url 'clinica:atencion_lista' %}">Limpiar</a>
+  </div>
+</form>
+
+{% if atenciones %}
+  <table class="tabla">
+    <thead>
+      <tr><th>Fecha</th><th>Mascota</th><th>Dueño</th><th>Veterinario</th><th>Motivo</th><th>Estado</th><th>Total con IVA</th></tr>
+    </thead>
+    <tbody>
+      {% for a in atenciones %}
+      <tr>
+        <td>{{ a.fecha }}</td>
+        <td><a href="{% url 'clinica:mascota_detalle' a.mascota.pk %}">{{ a.mascota.nombre }}</a></td>
+        <td>{{ a.mascota.dueno.nombre_completo }}</td>
+        <td>{{ a.veterinario }}</td>
+        <td>{{ a.motivo }}</td>
+        <td><span class="etiqueta {% if a.estado == 'REA' %}ok{% endif %}">{{ a.get_estado_display }}</span></td>
+        <td>${{ a.costo_con_iva }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="estado estado-vacio">
+    <h2>No hay atenciones que mostrar</h2>
+    <p>Pruebe con otro veterinario o registre una nueva atención.</p>
+    <a class="btn btn-principal" href="{% url 'clinica:atencion_crear' %}">Registrar atención</a>
+  </div>
+{% endif %}
+{% endblock %}

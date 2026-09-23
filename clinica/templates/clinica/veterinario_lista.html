@@ -1,0 +1,38 @@
+{% extends "clinica/base.html" %}
+
+{% block titulo %}Veterinarios · Clínica Patitas{% endblock %}
+
+{% block contenido %}
+<h1>Veterinarios</h1>
+<p class="sutil">Cada profesional atiende solo las especies de su competencia (relación muchos a muchos).</p>
+
+{% if veterinarios %}
+  <table class="tabla">
+    <thead>
+      <tr><th>Nombre</th><th>Especialidad</th><th>Email</th><th>Especies que atiende</th><th>Estado</th></tr>
+    </thead>
+    <tbody>
+      {% for v in veterinarios %}
+      <tr>
+        <td>{{ v }}</td>
+        <td>{{ v.especialidad }}</td>
+        <td>{{ v.email }}</td>
+        <td>
+          {% for e in v.especies_atendidas.all %}
+            <span class="etiqueta">{{ e.nombre }}</span>
+          {% empty %}
+            <span class="sutil">Sin especies asignadas</span>
+          {% endfor %}
+        </td>
+        <td>{% if v.activo %}<span class="etiqueta ok">Activo</span>{% else %}<span class="etiqueta">Inactivo</span>{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="estado estado-vacio">
+    <h2>No hay veterinarios registrados</h2>
+    <p>Agréguelos desde el panel de administración.</p>
+  </div>
+{% endif %}
+{% endblock %}

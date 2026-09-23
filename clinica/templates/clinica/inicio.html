@@ -14,10 +14,27 @@
     <span class="rotulo">Mascotas activas</span>
     <a href="{% url 'clinica:mascota_lista' %}">Ver listado</a>
   </article>
+  <article class="tarjeta">
+    <span class="numero">{{ resumen.duenos }}</span>
+    <span class="rotulo">Dueños registrados</span>
+    <a href="{% url 'clinica:dueno_lista' %}">Ver listado</a>
+  </article>
+  <article class="tarjeta">
+    <span class="numero">{{ resumen.veterinarios }}</span>
+    <span class="rotulo">Veterinarios activos</span>
+    <a href="{% url 'clinica:veterinario_lista' %}">Ver listado</a>
+  </article>
+  <article class="tarjeta">
+    <span class="numero">{{ resumen.pendientes }}</span>
+    <span class="rotulo">Atenciones pendientes</span>
+    <a href="{% url 'clinica:atencion_lista' %}">Ver listado</a>
+  </article>
 </section>
 
 <section class="acciones">
   <h2>Acciones rápidas</h2>
   <a class="btn btn-principal" href="{% url 'clinica:mascota_crear' %}">Registrar mascota</a>
+  <a class="btn" href="{% url 'clinica:dueno_crear' %}">Registrar dueño</a>
+  <a class="btn" href="{% url 'clinica:atencion_crear' %}">Registrar atención</a>
 </section>
 {% endblock %}

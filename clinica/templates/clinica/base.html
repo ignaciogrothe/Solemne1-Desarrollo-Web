@@ -16,6 +16,9 @@
       <nav class="menu">
         <a href="{% url 'clinica:inicio' %}">Inicio</a>
         <a href="{% url 'clinica:mascota_lista' %}">Mascotas</a>
+        <a href="{% url 'clinica:dueno_lista' %}">Dueños</a>
+        <a href="{% url 'clinica:atencion_lista' %}">Atenciones</a>
+        <a href="{% url 'clinica:veterinario_lista' %}">Veterinarios</a>
         {% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin</a>{% endif %}
       </nav>
 
