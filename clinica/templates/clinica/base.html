@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Clínica Veterinaria{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'clinica/css/estilos.css' %}">
+</head>
+<body>
+
+  <header class="cabecera">
+    <a class="marca" href="{% url 'clinica:inicio' %}">🐾 Clínica Patitas</a>
+
+    {% if user.is_authenticated %}
+      <nav class="menu">
+        <a href="{% url 'clinica:inicio' %}">Inicio</a>
+        <a href="{% url 'clinica:mascota_lista' %}">Mascotas</a>
+        {% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin</a>{% endif %}
+      </nav>
+
+      <div class="sesion">
+        <span class="usuario">👤 {{ user.get_username }}</span>
+        <form action="{% url 'clinica:logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-salir">Cerrar sesión</button>
+        </form>
+      </div>
+    {% endif %}
+  </header>
+
+  <main class="contenido">
+    {% if messages %}
+      <ul class="avisos">
+        {% for m in messages %}<li class="aviso aviso-{{ m.tags }}">{{ m }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+
+    {% block contenido %}{% endblock %}
+  </main>
+
+  <footer class="pie">
+    Desarrollo Web y Aplicaciones Móviles · Taller evaluado AE1–AE2
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

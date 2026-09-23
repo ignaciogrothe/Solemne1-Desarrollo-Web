@@ -1,0 +1,57 @@
+{% extends "clinica/base.html" %}
+
+{% block titulo %}{{ titulo }} · Clínica Patitas{% endblock %}
+
+{% block contenido %}
+<h1>{{ titulo }}</h1>
+
+<form class="formulario" method="post">
+  {% csrf_token %}
+
+  <div class="grupo">
+    <label for="{{ form.nombre.id_for_label }}">Nombre</label>
+    {{ form.nombre }}
+    {% for e in form.nombre.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.dueno.id_for_label }}">Dueño</label>
+    {{ form.dueno }}
+    {% for e in form.dueno.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.especie.id_for_label }}">Especie</label>
+    {{ form.especie }}
+    {% for e in form.especie.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.sexo.id_for_label }}">Sexo</label>
+    {{ form.sexo }}
+    {% for e in form.sexo.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.fecha_nacimiento.id_for_label }}">Fecha de nacimiento</label>
+    {{ form.fecha_nacimiento }}
+    {% for e in form.fecha_nacimiento.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo">
+    <label for="{{ form.peso_kg.id_for_label }}">Peso (kg)</label>
+    {{ form.peso_kg }}
+    {% for e in form.peso_kg.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="grupo grupo-check">
+    {{ form.activa }}
+    <label for="{{ form.activa.id_for_label }}">Mascota activa</label>
+  </div>
+
+  <div class="acciones">
+    <button type="submit" class="btn btn-principal">Guardar</button>
+    <a class="btn" href="{% url 'clinica:mascota_lista' %}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

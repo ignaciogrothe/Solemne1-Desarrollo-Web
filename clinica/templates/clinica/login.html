@@ -1,0 +1,30 @@
+{% extends "clinica/base.html" %}
+
+{% block titulo %}Iniciar sesión · Clínica Patitas{% endblock %}
+
+{% block contenido %}
+<section class="panel-login">
+  <h1>Iniciar sesión</h1>
+  <p class="sutil">Ingrese sus credenciales para acceder al sistema.</p>
+
+  {% if form.non_field_errors %}
+    <div class="aviso aviso-error">Usuario o contraseña incorrectos.</div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="grupo">
+      <label for="{{ form.username.id_for_label }}">Usuario</label>
+      {{ form.username }}
+    </div>
+
+    <div class="grupo">
+      <label for="{{ form.password.id_for_label }}">Contraseña</label>
+      {{ form.password }}
+    </div>
+
+    <button type="submit" class="btn btn-principal">Entrar</button>
+  </form>
+</section>
+{% endblock %}

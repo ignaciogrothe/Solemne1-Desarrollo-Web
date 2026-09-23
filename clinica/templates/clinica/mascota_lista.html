@@ -1,0 +1,44 @@
+{% extends "clinica/base.html" %}
+
+{% block titulo %}Mascotas · Clínica Patitas{% endblock %}
+
+{% block contenido %}
+<div class="encabezado-seccion">
+  <h1>Mascotas</h1>
+  <a class="btn btn-principal" href="{% url 'clinica:mascota_crear' %}">+ Nueva mascota</a>
+</div>
+
+{% if mascotas %}
+  <table class="tabla">
+    <thead>
+      <tr>
+        <th>Nombre</th><th>Especie</th><th>Dueño</th>
+        <th>Sexo</th><th>Edad</th><th>Peso</th><th>Estado</th><th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in mascotas %}
+      <tr>
+        <td><a href="{% url 'clinica:mascota_detalle' m.pk %}">{{ m.nombre }}</a></td>
+        <td>{{ m.especie.nombre }}</td>
+        <td>{{ m.dueno.nombre_completo }}</td>
+        <td>{{ m.get_sexo_display }}</td>
+        <td>{{ m.edad_anios }} año{{ m.edad_anios|pluralize }}{% if m.es_cachorro %} <span class="etiqueta">cachorro</span>{% endif %}</td>
+        <td>{{ m.peso_kg }} kg</td>
+        <td>{% if m.activa %}<span class="etiqueta ok">Activa</span>{% else %}<span class="etiqueta">Inactiva</span>{% endif %}</td>
+        <td class="acciones-fila">
+          <a href="{% url 'clinica:mascota_editar' m.pk %}">Editar</a>
+          <a class="peligro" href="{% url 'clinica:mascota_eliminar' m.pk %}">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="estado estado-vacio">
+    <h2>No hay mascotas que mostrar</h2>
+    <p>Aún no se ha registrado ninguna mascota.</p>
+    <a class="btn btn-principal" href="{% url 'clinica:mascota_crear' %}">Registrar la primera</a>
+  </div>
+{% endif %}
+{% endblock %}

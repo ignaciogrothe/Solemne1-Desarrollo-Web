@@ -1,0 +1,45 @@
+{% extends "clinica/base.html" %}
+
+{% block titulo %}{{ mascota.nombre }} · Clínica Patitas{% endblock %}
+
+{% block contenido %}
+<div class="encabezado-seccion">
+  <h1>{{ mascota.nombre }}</h1>
+  <a class="btn" href="{% url 'clinica:mascota_editar' mascota.pk %}">Editar</a>
+</div>
+
+<dl class="ficha">
+  <dt>Especie</dt><dd>{{ mascota.especie.nombre }}</dd>
+  <dt>Dueño</dt><dd>{{ mascota.dueno.nombre_completo }} — {{ mascota.dueno.telefono }}</dd>
+  <dt>Sexo</dt><dd>{{ mascota.get_sexo_display }}</dd>
+  <dt>Nacimiento</dt><dd>{{ mascota.fecha_nacimiento }} ({{ mascota.edad_anios }} año{{ mascota.edad_anios|pluralize }})</dd>
+  <dt>Peso</dt><dd>{{ mascota.peso_kg }} kg</dd>
+  <dt>Estado</dt><dd>{% if mascota.activa %}Activa{% else %}Inactiva{% endif %}</dd>
+</dl>
+
+<h2>Historial de atenciones</h2>
+{% if atenciones %}
+  <table class="tabla">
+    <thead>
+      <tr><th>Fecha</th><th>Veterinario</th><th>Motivo</th><th>Estado</th><th>Total con IVA</th></tr>
+    </thead>
+    <tbody>
+      {% for a in atenciones %}
+      <tr>
+        <td>{{ a.fecha }}</td>
+        <td>{{ a.veterinario }}</td>
+        <td>{{ a.motivo }}</td>
+        <td>{{ a.get_estado_display }}</td>
+        <td>${{ a.costo_con_iva }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="estado estado-vacio">
+    <p>Esta mascota todavía no registra atenciones.</p>
+  </div>
+{% endif %}
+
+<a class="btn" href="{% url 'clinica:mascota_lista' %}">Volver al listado</a>
+{% endblock %}

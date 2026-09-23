@@ -1,0 +1,23 @@
+{% extends "clinica/base.html" %}
+
+{% block titulo %}Inicio · Clínica Patitas{% endblock %}
+
+{% block contenido %}
+<section class="portada">
+  <h1>Bienvenido, {{ user.get_username }}</h1>
+  <p class="sutil">Sistema de gestión de pacientes de la Clínica Veterinaria Patitas.</p>
+</section>
+
+<section class="tarjetas">
+  <article class="tarjeta">
+    <span class="numero">{{ resumen.mascotas }}</span>
+    <span class="rotulo">Mascotas activas</span>
+    <a href="{% url 'clinica:mascota_lista' %}">Ver listado</a>
+  </article>
+</section>
+
+<section class="acciones">
+  <h2>Acciones rápidas</h2>
+  <a class="btn btn-principal" href="{% url 'clinica:mascota_crear' %}">Registrar mascota</a>
+</section>
+{% endblock %}
